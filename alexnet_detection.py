@@ -94,12 +94,12 @@ def alexnet_predict(img_path):
     predicted_class = predicted_class.item()
 
     # Define the class labels
-    class_labels = ['NORMAL', 'OM']
+    class_labels = ['NORMAL', 'Otitis Media']
 
     # Print the predicted class and its probability confidence with color
     predicted_text = '\033[94m{}\033[0m'.format(class_labels[predicted_class])
     confidence_text = '\033[94m{:.2f}%\033[0m'.format(predicted_prob * 100)
-    print('The Image is predicted as', predicted_text, 'with confidence level of', confidence_text)
+    print('The Image is predicted as',predicted_text, 'with', confidence_text,'confidence.' ' Not for diagnosis, always consult a doctor')
 
     # # Display the image
     # plt.imshow(image)
