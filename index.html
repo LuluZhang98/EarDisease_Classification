@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Image Classification</title>
+  <style>
+    .container {
+      margin-top: 20px;
+      text-align: center;
+    }
+    #imagePreview {
+      max-width: 400px;
+      max-height: 400px;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Image Classification</h1>
+    <input type="file" id="uploadInput" accept="image/*">
+    <div>
+      <img id="imagePreview" src="#" alt="Preview">
+    </div>
+    <button onclick="classifyImage()">Classify</button>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    function classifyImage() {
+      var fileInput = document.getElementById('uploadInput');
+      var file = fileInput.files[0];
+      var reader = new FileReader();
+
+      reader.onload = function(e) {
+        var image = document.getElementById('imagePreview');
+        image.src = e.target.result;
+
+        // Send the image to the backend for classification
+        var formData = new FormData();
+        formData.append('image', file);
+
+        fetch('http://127.0.0.1:5000/classify', {
+          method: 'POST',
+          body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+          // Display the classification result
+          var resultDiv = document.getElementById('result');
+          resultDiv.innerHTML = 'The Image is predicted as ' + data.class + ' with ' + data.prob + '% confidence. ' + 'Not for diagnosis, always consult a doctor';
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+      }
+
+      reader.readAsDataURL(file);
+    }
+  </script>
+</body>
+</html>
