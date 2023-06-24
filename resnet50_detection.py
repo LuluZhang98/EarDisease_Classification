@@ -52,9 +52,7 @@ def resnet_predict(img_path):
     # Define the transformations for inference
     transform = transforms.Compose([
         transforms.CenterCrop(1500),
-        transforms.RandomRotation(180),
-        transforms.RandomResizedCrop(224, (0.7, 1)),
-        transforms.RandomHorizontalFlip(0.5),
+        transforms.Resize((244, 244)),
         transforms.ToTensor()
     ])
 

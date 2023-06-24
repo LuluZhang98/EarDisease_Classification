@@ -40,7 +40,7 @@ http://localhost:8000/
 
 3. resnet50_detection.py: Do inference with ResNet model.
 
-4. prelim_mobilenet_detection.py: Do inference with MobileNet model.
+4. mobilenet_detection.py: Do inference with MobileNet model.
 
 5. AlexNet_model.pth: Saved AlexNet model
 

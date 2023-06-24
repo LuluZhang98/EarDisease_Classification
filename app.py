@@ -4,8 +4,8 @@ from flask_cors import CORS
 
 from alexnet_detection import alexnet_predict
 from resnet50_detection import resnet_predict
-from prelim_mobilenet_detection import mobilenet_predict
-
+from mobilenet_detection import mobilenet_predict
+from densenet_inference import densenet_predict
 
 #Instantiate a flask object
 app = Flask(__name__)
@@ -60,6 +60,21 @@ def classify_mobilenet():
 
   # Perform image classification with MobileNet model
   predicted_class, predicted_prob = mobilenet_predict(img_path)
+
+  # Return the prediction result as JSON response
+  return jsonify({'class': predicted_class, 'prob': predicted_prob})
+
+
+@app.route('/classify_densenet', methods=['POST'])
+def classify_densenet():
+  # Check if an image file was uploaded
+  if 'image' not in request.files:
+    return jsonify({'error': 'No image file found'})
+
+  img_path = request.files['image'].stream
+
+  # Perform image classification with MobileNet model
+  predicted_class, predicted_prob = densenet_predict(img_path)
 
   # Return the prediction result as JSON response
   return jsonify({'class': predicted_class, 'prob': predicted_prob})

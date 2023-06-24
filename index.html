@@ -27,6 +27,8 @@
     <div id="resnet-result"></div>
     <button onclick="ClassifyWithMobileNet()">Classify with MobileNet</button>
     <div id="mobilenet-result"></div>
+    <button onclick="ClassifyWithDenseNet()">Classify with DenseNet</button>
+    <div id="densenet-result"></div>
   </div>
 
   <script>
@@ -117,6 +119,39 @@
         .then(data => {
           // Display the classification result
           var resultDiv = document.getElementById('mobilenet-result');
+          resultDiv.innerHTML = 'The Image is predicted as ' + data.class + ' with ' + data.prob + '% confidence. ' + 'Not for diagnosis, always consult a doctor';
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+      }
+
+      reader.readAsDataURL(file);
+    }
+  </script>
+
+  <script>
+    function ClassifyWithDenseNet() {
+      var fileInput = document.getElementById('uploadInput');
+      var file = fileInput.files[0];
+      var reader = new FileReader();
+
+      reader.onload = function(e) {
+        var image = document.getElementById('imagePreview');
+        image.src = e.target.result;
+
+        // Send the image to the backend for classification
+        var formData = new FormData();
+        formData.append('image', file);
+
+        fetch('http://127.0.0.1:5000/classify_densenet', {
+          method: 'POST',
+          body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+          // Display the classification result
+          var resultDiv = document.getElementById('densenet-result');
           resultDiv.innerHTML = 'The Image is predicted as ' + data.class + ' with ' + data.prob + '% confidence. ' + 'Not for diagnosis, always consult a doctor';
         })
         .catch(error => {
